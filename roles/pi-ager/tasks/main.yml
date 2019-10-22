@@ -1,0 +1,5 @@
+---
+- include: prepare_system.yml
+- include: fetch_software.yml
+- include: configure_lighttpd.yml
+- include: install_piager.yml

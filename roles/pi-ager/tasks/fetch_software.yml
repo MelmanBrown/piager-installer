@@ -1,0 +1,73 @@
+---
+# These tasks are responsible for copying the latest dev/production code from
+# the version control system.
+
+- name: Install additional software - git/svn
+  apt:
+    name: 
+      - git
+      - subversion
+    state: present
+
+- name: Copy the pi-ager code from git repository
+  git: 
+    repo: "{{ repository }}" 
+    dest: "{{ repo_tmp_dir }}"
+    version: "{{ branch }}"
+
+- name: Install additional software - lighttpd
+  apt:
+    name: lighttpd
+    state: present
+
+- name: Install additional software - php
+  apt: 
+    name: 
+      - php7.3
+      - php7.3-common
+      - php7.3-cgi
+      - php7.3-sqlite3
+      - php7.3-apcu
+    state: present
+
+- name: Install additional software - pip3
+  apt:
+    name: python3-pip
+    state: present
+
+- name: Install additional software - sqlite3
+  apt:
+    name: sqlite3
+    state: present
+
+- name: Install additional software - develepment software
+  apt:
+    name: 
+      - build-essential
+      - python3-dev
+      - python3-setuptools
+      - dos2unix
+      - zip
+    state: present
+
+- name: Install additional software - pigpio / wiringi
+  apt: 
+    name: 
+      - pigpiod
+      - pigpio
+      - pigpio-tools
+      - python3-pigpio
+      - wiringpi
+    state: present
+
+- name: Install additional software - SHT sensors
+  pip:
+    name: pi-sht1x
+    executable: /usr/bin/pip3
+
+- name: Install additional software - DHT sensors
+  pip:
+    name: Adafruit-DHT
+    executable: /usr/bin/pip3
+
+

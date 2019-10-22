@@ -1,0 +1,8 @@
+[Unit]
+Description=Daemon for Pi-Ager
+[Service]
+ExecStart=/opt/pi-ager/main.py
+ExecStop=/bin/systemctl kill pi-ager
+Type=simple
+[Install]
+WantedBy=multi-user.target

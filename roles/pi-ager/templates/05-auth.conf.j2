@@ -1,0 +1,25 @@
+# /usr/share/doc/lighttpd/authentication.txt.gz
+
+server.modules                += ( "mod_auth" )
+auth.backend                    = "htdigest"
+auth.backend.htdigest.userfile     = "{{lighttpd_auth_file}}"
+
+auth.require                    = ( "/settings.php" =>
+                                   (
+                                    "method" => "digest",
+                                    "realm" => "{{webadmin_realm}}",
+                                    "require" => "user={{webadmin_user}}"
+                                   ),
+                                    "/admin.php" =>
+                                   (
+                                    "method"  => "digest",
+                                    "realm"   => "{{webadmin_realm}}",
+                                    "require" => "valid-user"
+                                    ),
+                                    "/webcam.php" =>
+                                   (
+                                    "method"  => "digest",
+                                    "realm"   => "{{webadmin_realm}}",
+                                    "require" => "valid-user"
+                                    )
+                                  )

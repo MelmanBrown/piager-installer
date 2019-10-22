@@ -1,0 +1,15 @@
+---
+# Prepare the system to install pi-ager
+#
+
+- name: Add group www-data
+  group:
+    name: www-data
+    state: present
+
+- name: Add user pi to group www-data
+  user:
+    name: pi
+    append: yes
+    groups: www-data
+

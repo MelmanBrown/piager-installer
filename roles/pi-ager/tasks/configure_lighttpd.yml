@@ -1,0 +1,80 @@
+---
+# Do all necessary configuration to lighttpd
+#
+
+- name: lighttpd - Roll out custom config file
+  template:
+    src: lighttpd.conf.j2
+    dest: "{{lighttpd_config_file}}"
+    lstrip_blocks: true
+  notify: restart lighttpd
+
+- name: lighttpd - Roll out custom auth config
+  template:
+    src: 05-auth.conf.j2
+    dest: "{{lighttpd_auth_config_file}}"
+    lstrip_blocks: true
+  notify: restart lighttpd
+
+- name: lighttpd - write authentication file for admin area
+  template:
+    src: htcredentials.j2
+    dest: "{{lighttpd_auth_file}}"
+    lstrip_blocks: true
+
+- name: lighttpd - write config for APC cache
+  template:
+    src: apcu_bc.ini.j2
+    dest: /etc/php/7.3/mods-available/apcu_bc.ini
+    lstrip_blocks: true
+
+- name: lighttpd - Enable fastcgi-php
+  template:
+    src: 15-fastcgi-php.conf.j2
+    dest: "{{lighttpd_php_config_file}}"
+    lstrip_blocks: true
+
+#- name: lighttpd - Enable fastcgi-php
+#  command: /usr/sbin/lighty-enable-mod fastcgi-php
+#  notify: restart lighttpd
+#  register: result
+#  failed_when:
+#    - result.rc == 1
+#
+- name: lighttpd - Delete existing web directory
+  file:
+    path: "{{lighttpd_config['server.document-root']}}"
+    state: absent
+
+- name: lighttpd - Copy web content from git checkout
+  copy:
+    src: "{{repo_tmp_dir}}/var/www/"
+    dest: "{{lighttpd_config['server.document-root']}}/"
+    owner: www-data
+    group: www-data
+    mode: u=rwX,g=rw,o=r
+
+- name: lighttpd - Copy sudoscript from git checkout
+  copy:
+    src: "{{repo_tmp_dir}}/var/sudowebscript.sh"
+    dest: "/var/"
+    owner: www-data
+    group: www-data
+    mode: u=rwx,g=rwx,o=r
+
+#- name: lighttpd - Recursively change ownership of document root
+#  file:
+#    path: "{{lighttpd_config['server.document-root']}}"
+#    state: directory
+#    recurse: yes
+#    owner: www-data
+#    group: www-data
+#
+#- name: lighttpd - Recursively change ownership of document root
+#  file:
+#    path: "{{lighttpd_config['server.document-root']}}"
+#    state: directory
+#    recurse: yes
+#    owner: www-data
+#    group: www-data
+#

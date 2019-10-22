@@ -1,0 +1,17 @@
+---
+# This playbook deploys the whole application stack in this site.
+
+#- name: apply common configuration to all nodes
+#  hosts: all
+#  remote_user: root
+#
+#  roles:
+#    - common
+
+- name: configure and deploy pi-ager
+  hosts: pi-ager
+  remote_user: pi
+  become: true
+  roles:
+    - pi-ager
+      # when: ansible_distribution == 'Debian'

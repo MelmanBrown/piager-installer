@@ -1,0 +1,58 @@
+---
+# Copy code for pi-ager
+#
+
+- name: Pi-Ager - create directory
+  file:
+    path: "{{pi_ager_dir}}"
+    state: directory
+
+#- name: Pi-Ager - copy content from git repository
+#  copy:
+#    src: "{{repo_tmp_dir}}/opt/pi-ager/"
+#    dest: "{{pi_ager_dir}}"
+
+- name: Pi-Ager - ensure Unix line endings
+  shell: dos2unix *.py
+  args:
+    chdir: "{{pi_ager_dir}}"
+
+#- name: Pi-Ager - add sudo permission 
+#  lineinfile:
+#    path: /etc/sudoers
+#    state: present
+#    regexp: '^www-data ALL='
+#    line: 'www-data ALL = NOPASSWD: /var/sudowebscript.sh'
+#    validate: /usr/sbin/visudo -cf %s
+
+- name: Pi-Ager - add sudo permissoon
+  template:
+    src: 020-pi-ager-nopasswd.j2
+    dest: /etc/sudoers.d/020-pi-ager-nopasswd.j2
+    lstrip_blocks: true
+
+- name: Pi-Ager - make main.py script executable 
+  file:
+    path: /opt/pi-ager/main.py
+    mode: '0755'
+
+- name: Pi-Ager - create systemd module
+  template:
+    src: pi-ager.service.j2
+    dest: /lib/systemd/system/pi-ager.service
+    lstrip_blocks: true
+
+- name: Pi-Ager - enable and start pi-ager
+  systemd:
+    name: pi-ager
+    state: started
+    enabled: yes 
+#- name: Pi-Ager - 
+#- name: Pi-Ager - 
+#- name: Pi-Ager - 
+
+
+####################################################
+
+
+

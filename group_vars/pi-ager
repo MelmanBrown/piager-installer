@@ -1,0 +1,38 @@
+---
+# The variables file used by the playbooks in the dbservers group.
+# These don't have to be explicitly imported by vars_files: they are autopopulated.
+
+ansible_ssh_private_key_file: ~/.ssh/ansible
+ansible_python_interpreter: /usr/bin/python3
+
+repository: https://github.com/Tronje-the-Falconer/Pi-Ager.git
+branch: entwicklung
+repo_tmp_dir: /home/pi/pi-ager
+
+pi_ager_dir: /opt/pi-ager
+
+# configuration of lighttpd
+
+lighttpd_config_file: /etc/lighttpd/lighttpd.conf
+lighttpd_auth_config_file: /etc/lighttpd/conf-enabled/05-auth.conf
+lighttpd_php_config_file: /etc/lighttpd/conf-enabled/15-fastcgi-php.conf
+lighttpd_auth_file: /var/.htcredentials
+
+lighttpd_modules:
+  - fastcgi   # Enable FastCGI
+  - compress
+  - access
+  - alias
+  - redirect
+  - dirlisting
+  - auth
+
+lighttpd_config:
+  server.port: 80
+  server.document-root: /var/www/
+
+webadmin_realm: Pi-Ager
+webadmin_user: pi-ager
+webadmin_password: pi-ager ## CHANGEME ##
+# 
+
