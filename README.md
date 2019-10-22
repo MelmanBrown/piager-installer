@@ -14,12 +14,14 @@ As this is much more reproducable with ansible and also easier for non-IT guys I
 Please use an untouched Rasbian Buster Lite image - available at https://www.raspberrypi.org/downloads/raspbian/ 
 Configure networking and log on to the machine via ssh as user `pi` (and password `raspberry`)
 Install ansible and git to the image
+
 	sudo apt update
 	sudo apt upgrade -y
 	sudo apt install ansible git -y
 
 ### Clone the repository
 Clone the repository to your local raspberry
+
 	git clone https://github.com/MelmanBrown/piager-installer.git
 	cd pi-ager
 
@@ -33,6 +35,7 @@ You may want to set a custom password for the admin area of the web interface in
 
 ### Run the playbook
 Now let's see if it works
+
 	ansible-playbook -i hosts site.yml
 
 If you want som fun, run `sudo apt install cowsay -y` before executing the playbook
