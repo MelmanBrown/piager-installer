@@ -23,7 +23,7 @@ Install ansible and git to the image
 Clone the repository to your local raspberry
 
 	git clone https://github.com/MelmanBrown/piager-installer.git
-	cd pi-ager
+	cd piager-installer
 
 ### Check the config
 You may want to set a custom password for the admin area of the web interface in the config under `group_vars/pi-ager`. Look for the ## CHANGEME ## comment.

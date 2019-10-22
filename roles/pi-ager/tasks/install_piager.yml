@@ -7,10 +7,10 @@
     path: "{{pi_ager_dir}}"
     state: directory
 
-#- name: Pi-Ager - copy content from git repository
-#  copy:
-#    src: "{{repo_tmp_dir}}/opt/pi-ager/"
-#    dest: "{{pi_ager_dir}}"
+- name: Pi-Ager - copy content from git repository
+  copy:
+    src: "{{repo_tmp_dir}}/opt/pi-ager/"
+    dest: "{{pi_ager_dir}}"
 
 - name: Pi-Ager - ensure Unix line endings
   shell: dos2unix *.py
