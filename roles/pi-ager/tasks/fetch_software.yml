@@ -60,6 +60,12 @@
       - wiringpi
     state: present
 
+- name: Install additional software - fix pigpiod systemd service
+  lineinfile:
+    path: /lib/systemd/system/pigpiod.service
+    regexp: '^ExecStart='
+    line: 'ExecStart=/usr/bin/pigpiod -l -n 127.0.0.1'
+
 - name: Install additional software - SHT sensors
   pip:
     name: pi-sht1x
